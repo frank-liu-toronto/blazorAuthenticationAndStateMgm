@@ -1,0 +1,39 @@
+﻿@page "/"
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<br/>
+<br/>
+@if (authState != null)
+{
+    <p>
+        Name: @authState.User.Identity.Name
+    </p>
+
+    @foreach (var claim in authState.User.Claims)
+    {
+        <p>
+            Claim Type: @claim.Type
+        </p>
+        <p>
+            Claim Value: @claim.Value
+        </p>
+    }
+    
+}
+
+@code {
+
+    [CascadingParameter]
+    private Task<AuthenticationState> _authState { get; set; }
+
+    private AuthenticationState authState;
+
+    protected override async Task OnInitializedAsync()
+    {
+        authState = await _authState;
+    }
+
+}

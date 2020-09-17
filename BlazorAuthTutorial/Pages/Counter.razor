@@ -1,0 +1,35 @@
+﻿@page "/counter"
+@*@inject BlazorAuthTutorial.Store.CountStore CountStore*@
+@inject IActionDispatcher Dispatcher
+@inject BlazorAuthTutorial.Stores.CounterStore.CounterStore Store
+
+<h1>Counter</h1>
+
+<p>Current count: @Store.GetState().Count</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Increase</button>
+<br/>
+<br/>
+<button class="btn btn-primary" @onclick="DecreaseCount">Decrease</button>
+
+@code {    
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Store.AddStateChangeListeners(() => { StateHasChanged(); });
+    }
+
+    private void IncrementCount()
+    {
+        Dispatcher.Dispatch(new IncreaseAction());
+    }
+
+    private void DecreaseCount()
+    {
+        Dispatcher.Dispatch(new DecreaseAction());
+    }
+
+
+}
